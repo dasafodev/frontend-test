@@ -1,20 +1,23 @@
+import 'package:flutter/material.dart';
+import 'package:frontend_test/app/modules/home/providers/cities_provider.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
-
-  final count = 0.obs;
+  // final searchController = TextEditingController();
+  final cityName = ''.obs;
+  final citiesProvider = CitiesProvider();
   @override
   void onInit() {
+    // TODO: implement onInit
     super.onInit();
+    // searchController.addListener(() { });
+    debounce(cityName, (newValue) {
+      print(newValue);
+      getData();
+    }, time: 1.2.seconds);
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  getData() async {
+    await citiesProvider.getCity(cityName.value);
   }
-
-  @override
-  void onClose() {}
-  void increment() => count.value++;
 }
