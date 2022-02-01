@@ -2,6 +2,7 @@ import 'package:frontend_test/app/data/models/restaurant_model.dart';
 import 'package:frontend_test/app/modules/home/providers/cities_provider.dart';
 import 'package:frontend_test/app/modules/home/providers/restaurants_provider.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 class HomeController extends GetxController {
   final cityName = ''.obs;
@@ -9,6 +10,7 @@ class HomeController extends GetxController {
   final _restaurantsProvider = RestaurantsProvider();
   final RxList<Restaurant> restaurants = RxList();
   final isLoading = false.obs;
+  final box = GetStorage();
 
   @override
   void onInit() {
@@ -22,6 +24,7 @@ class HomeController extends GetxController {
   getData() async {
     isLoading.value = true;
     if (cityName.value.length > 3) {
+      box.write(DateTime.now().toIso8601String(), cityName.value);
       final city = await _citiesProvider.getCity(cityName.value);
       final restaurantsResp = (await _restaurantsProvider.getRestaurants(
               city.latitude.toString(), city.longitude.toString()))
@@ -29,7 +32,7 @@ class HomeController extends GetxController {
       restaurantsResp.removeWhere((element) => element.name == '');
       restaurants.clear();
       restaurants.addAll(restaurantsResp);
-    }else{
+    } else {
       restaurants.clear();
     }
     isLoading.value = false;

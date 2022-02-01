@@ -10,16 +10,16 @@ class HistoryView extends GetView<HistoryController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('HistoryView'),
+        title: Text('Historial de búsquedas'),
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
-      body: Center(
-        child: Text(
-          'HistoryView is working',
-          style: TextStyle(fontSize: 20),
-        ),
-      ),
+      body: ListView.separated(
+          itemBuilder: (cont, index) => ListTile(
+                title: Text(controller.history[index]),
+              ),
+          separatorBuilder: (cont, index) => Divider(),
+          itemCount: controller.history.length),
     );
   }
 }
