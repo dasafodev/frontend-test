@@ -4,8 +4,8 @@
 
 import 'dart:convert';
 
-Restaurants restaurantsFromJson(String str) =>
-    Restaurants.fromJson(json.decode(str));
+Restaurants restaurantsFromJson(Map<String, dynamic> str) =>
+    Restaurants.fromJson(str);
 
 String restaurantsToJson(Restaurants data) => json.encode(data.toJson());
 
@@ -19,7 +19,8 @@ class Restaurants {
   Paging paging;
 
   factory Restaurants.fromJson(Map<String, dynamic> json) => Restaurants(
-        data: List<Restaurant>.from(json["data"].map((x) => Restaurant.fromJson(x))),
+        data: List<Restaurant>.from(
+            json["data"].map((x) => Restaurant.fromJson(x))),
         paging: Paging.fromJson(json["paging"]),
       );
 
@@ -35,122 +36,39 @@ class Restaurant {
     required this.name,
     required this.latitude,
     required this.longitude,
-    required this.numReviews,
-    required this.timezone,
-    required this.locationString,
-    required this.photo,
-    required this.awards,
-    required this.doubleclickZone,
-    required this.preferredMapEngine,
-    required this.rawRanking,
-    required this.rankingGeo,
-    required this.rankingGeoId,
-    required this.rankingPosition,
-    required this.rankingDenominator,
-    required this.rankingCategory,
-    required this.ranking,
-    required this.distance,
-    required this.distanceString,
-    required this.bearing,
-    required this.rating,
-    required this.isClosed,
-    required this.openNowText,
-    required this.isLongClosed,
-    required this.priceLevel,
-    required this.price,
+    this.photo,
     required this.description,
     required this.webUrl,
-    required this.writeReview,
-    required this.parentDisplayName,
-    required this.isJfyEnabled,
-    required this.nearestMetroStation,
     required this.phone,
     required this.website,
     required this.email,
     required this.address,
-    required this.isCandidateForContactInfoSuppression,
   });
 
   String locationId;
   String name;
   String latitude;
   String longitude;
-  String numReviews;
-  String timezone;
-  String locationString;
-  Photo photo;
-  List<dynamic> awards;
-  String doubleclickZone;
-  String preferredMapEngine;
-  String rawRanking;
-  String rankingGeo;
-  String rankingGeoId;
-  String rankingPosition;
-  String rankingDenominator;
-  String rankingCategory;
-  String ranking;
-  String distance;
-  String distanceString;
-  String bearing;
-  String rating;
-  bool isClosed;
-  String openNowText;
-  bool isLongClosed;
-  String priceLevel;
-  String price;
+  Photo? photo;
   String description;
   String webUrl;
-  String writeReview;
-  String parentDisplayName;
-  bool isJfyEnabled;
-  List<dynamic> nearestMetroStation;
   String phone;
   String website;
   String email;
   String address;
-  bool isCandidateForContactInfoSuppression;
 
   factory Restaurant.fromJson(Map<String, dynamic> json) => Restaurant(
-        locationId: json["location_id"],
-        name: json["name"],
-        latitude: json["latitude"],
-        longitude: json["longitude"],
-        numReviews: json["num_reviews"],
-        timezone: json["timezone"],
-        locationString: json["location_string"],
-        photo: Photo.fromJson(json["photo"]),
-        awards: List<dynamic>.from(json["awards"].map((x) => x)),
-        doubleclickZone: json["doubleclick_zone"],
-        preferredMapEngine: json["preferred_map_engine"],
-        rawRanking: json["raw_ranking"],
-        rankingGeo: json["ranking_geo"],
-        rankingGeoId: json["ranking_geo_id"],
-        rankingPosition: json["ranking_position"],
-        rankingDenominator: json["ranking_denominator"],
-        rankingCategory: json["ranking_category"],
-        ranking: json["ranking"],
-        distance: json["distance"],
-        distanceString: json["distance_string"],
-        bearing: json["bearing"],
-        rating: json["rating"],
-        isClosed: json["is_closed"],
-        openNowText: json["open_now_text"],
-        isLongClosed: json["is_long_closed"],
-        priceLevel: json["price_level"],
-        price: json["price"],
-        description: json["description"],
-        webUrl: json["web_url"],
-        writeReview: json["write_review"],
-        parentDisplayName: json["parent_display_name"],
-        isJfyEnabled: json["is_jfy_enabled"],
-        nearestMetroStation:
-            List<dynamic>.from(json["nearest_metro_station"].map((x) => x)),
-        phone: json["phone"],
-        website: json["website"],
-        email: json["email"],
-        address: json["address"],
-        isCandidateForContactInfoSuppression:
-            json["is_candidate_for_contact_info_suppression"],
+        locationId: json["location_id"] ?? '',
+        name: json["name"] ?? '',
+        latitude: json["latitude"] ?? '',
+        longitude: json["longitude"] ?? '',
+        photo: json["photo"] != null ? Photo.fromJson(json["photo"]) : null,
+        description: json["description"] ?? '',
+        webUrl: json["web_url"] ?? '',
+        phone: json["phone"] ?? '',
+        website: json["website"] ?? '',
+        email: json["email"] ?? '' ?? '',
+        address: json["address"] ?? '',
       );
 
   Map<String, dynamic> toJson() => {
@@ -158,42 +76,13 @@ class Restaurant {
         "name": name,
         "latitude": latitude,
         "longitude": longitude,
-        "num_reviews": numReviews,
-        "timezone": timezone,
-        "location_string": locationString,
-        "photo": photo.toJson(),
-        "awards": List<dynamic>.from(awards.map((x) => x)),
-        "doubleclick_zone": doubleclickZone,
-        "preferred_map_engine": preferredMapEngine,
-        "raw_ranking": rawRanking,
-        "ranking_geo": rankingGeo,
-        "ranking_geo_id": rankingGeoId,
-        "ranking_position": rankingPosition,
-        "ranking_denominator": rankingDenominator,
-        "ranking_category": rankingCategory,
-        "ranking": ranking,
-        "distance": distance,
-        "distance_string": distanceString,
-        "bearing": bearing,
-        "rating": rating,
-        "is_closed": isClosed,
-        "open_now_text": openNowText,
-        "is_long_closed": isLongClosed,
-        "price_level": priceLevel,
-        "price": price,
+        "photo": photo?.toJson(),
         "description": description,
         "web_url": webUrl,
-        "write_review": writeReview,
-        "parent_display_name": parentDisplayName,
-        "is_jfy_enabled": isJfyEnabled,
-        "nearest_metro_station":
-            List<dynamic>.from(nearestMetroStation.map((x) => x)),
         "phone": phone,
         "website": website,
         "email": email,
         "address": address,
-        "is_candidate_for_contact_info_suppression":
-            isCandidateForContactInfoSuppression,
       };
 }
 

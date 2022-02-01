@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_test/app/global_widgets/custom_input.dart';
+import 'package:frontend_test/app/global_widgets/drawer.dart';
 
 import 'package:get/get.dart';
 
@@ -10,9 +11,10 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buscar restaurantes'),
+        title: Text('Buscar restaurantes'), 
         centerTitle: true,
       ),
+      drawer: CustomDrawer(),
       body: Column(
         children: [
           SizedBox(
@@ -26,7 +28,22 @@ class HomeView extends GetView<HomeController> {
           SizedBox(
             height: 20,
           ),
-          screenText(),
+          Expanded(
+              // height: 300,
+              child: Obx(() => !controller.isLoading.value
+                  ? ListView.builder(
+                      itemBuilder: (context, index) {
+                        final rest = controller.restaurants[index];
+                        return ListTile(
+                          title: Text(rest.name),
+                        );
+                      },
+                      itemCount: controller.restaurants.length,
+                    )
+                  : Center(
+                      child: CircularProgressIndicator(),
+                    )))
+          // screenText(),
         ],
       ),
     );
