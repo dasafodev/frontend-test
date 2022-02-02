@@ -1,6 +1,7 @@
 import 'package:frontend_test/app/data/models/restaurant_model.dart';
 import 'package:frontend_test/app/modules/home/providers/cities_provider.dart';
 import 'package:frontend_test/app/modules/home/providers/restaurants_provider.dart';
+import 'package:frontend_test/app/utils/geo.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
@@ -19,6 +20,21 @@ class HomeController extends GetxController {
       print(newValue);
       getData();
     }, time: 1.2.seconds);
+  }
+
+  getLocation() async {
+    isLoading.value = true;
+
+    final position = await determinePosition();
+    final restaurantsResp = (await _restaurantsProvider.getRestaurants(
+            position.latitude.toString(), position.longitude.toString()))
+        .data;
+    restaurantsResp.removeWhere((element) => element.name == '');
+    restaurants.clear();
+    restaurants.addAll(restaurantsResp);
+    print(position.altitude);
+    print(position.longitude);
+    isLoading.value = false;
   }
 
   getData() async {

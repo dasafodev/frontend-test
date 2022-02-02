@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_test/app/global_widgets/custom_button.dart';
 import 'package:frontend_test/app/global_widgets/custom_input.dart';
 import 'package:frontend_test/app/global_widgets/drawer.dart';
 
@@ -11,7 +12,7 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Buscar restaurantes'), 
+        title: Text('Buscar restaurantes'),
         centerTitle: true,
       ),
       drawer: CustomDrawer(),
@@ -24,6 +25,13 @@ class HomeView extends GetView<HomeController> {
             label: 'Ciudad',
             onChange: (newValue) => controller.cityName.value = newValue,
             icon: Icons.search,
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          CustomButton(
+            text: 'Usar ubicación',
+            onPressed: () => controller.getLocation(),
           ),
           SizedBox(
             height: 20,
